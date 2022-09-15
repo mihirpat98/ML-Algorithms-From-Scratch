@@ -3,8 +3,8 @@ import numpy as np
 
 
 # Load our data set
-x_train = np.array([1.0, 2.0])   #features
-y_train = np.array([300.0, 500.0])   #target value
+x_train = np.array([1.0, 2.0,5.0,9.0])   #features
+y_train = np.array([300.0, 500.0,900.0,1500.0])   #target value
 
 
 def compute_cost(x,y,w,b):
@@ -39,7 +39,6 @@ def gradient_descent(x,y, w_in, b_in, alpha, num_iters, cost_function, gradient_
     w = w_in 
     for i in range(num_iters):
         dj_dw, dj_db = gradient_function(x,y,w,b)
-
         b = b - alpha * dj_db
         w = w - alpha * dj_dw
     return w,b
@@ -53,3 +52,16 @@ tmp_alpha = 1.0e-2
 # run gradient descent
 w_final, b_final = gradient_descent(x_train ,y_train, w_init, b_init, tmp_alpha, iterations, compute_cost, compute_gradient)
 print(w_final,b_final)
+
+
+import matplotlib.pyplot as plt
+x = np.linspace(-5,10,1000)
+y = w_final*x+b_final
+plt.plot(x, y, '-r', label='Linear Regression')
+plt.scatter(x_train,y_train,marker ='x')
+plt.title('Graph of y=2x+1')
+plt.xlabel('x', color='#1C2833')
+plt.ylabel('y', color='#1C2833')
+plt.legend(loc='upper left')
+plt.grid()
+plt.show()
