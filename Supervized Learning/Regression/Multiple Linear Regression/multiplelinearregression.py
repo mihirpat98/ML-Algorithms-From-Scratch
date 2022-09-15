@@ -16,9 +16,7 @@ def zscore_normalize_features(X):
     sigma  = np.std(X, axis=0)                  # sigma will have shape (n,)
     # element-wise, subtract mu for that column from each example, divide by std for that column
     X_norm = (X - mu) / sigma      
-
     return X_norm
-
 
 #X_train = zscore_normalize_features(X_train)
 
@@ -63,7 +61,7 @@ def gradient_descent(X, y, w_in, b_in, cost_function, gradient_function, alpha, 
 
 initial_w = np.zeros_like(w_init) 
 initial_b = 0.
-iterations = 1000
+iterations = 10000
 alpha = 5.0e-7
 w_final, b_final = gradient_descent(X_train, y_train, initial_w, initial_b,
                                                     compute_cost, compute_gradient, 
@@ -73,4 +71,5 @@ print(w_final,b_final)
 
 # Make Prediction
 y_pred = np.dot(X_train,w_final) + b_final
-print(y_pred)
+print(y_pred,y_train)
+
