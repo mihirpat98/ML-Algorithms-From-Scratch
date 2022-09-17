@@ -1,7 +1,18 @@
 import numpy as np
+import copy
+import matplotlib.pyplot as plt
+import matplotlib
+
+
+X_train = np.array([[0.5, 1.5], [1,1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])  #(m,n)
+y_train = np.array([0, 0, 0, 1, 1, 1])                                           #(m,)
+
 
 def sigmoid(a):
     return 1/(1+np.exp(-a))
+
+
+
 def compute_cost_logistic_reg(X, y, w, b, lambda_ = 1):
     """
     Computes the cost over all examples
@@ -64,3 +75,68 @@ def compute_gradient_logistic_reg(X, y, w, b, lambda_):
 
     return dj_db, dj_dw  
 
+
+def gradient_descent(X, y, w_in, b_in, alpha, num_iters,lambda_): 
+    """
+    Performs batch gradient descent
+    
+    Args:
+      X (ndarray (m,n)   : Data, m examples with n features
+      y (ndarray (m,))   : target values
+      w_in (ndarray (n,)): Initial values of model parameters  
+      b_in (scalar)      : Initial values of model parameter
+      alpha (float)      : Learning rate
+      num_iters (scalar) : number of iterations to run gradient descent
+      
+    Returns:
+      w (ndarray (n,))   : Updated values of parameters
+      b (scalar)         : Updated value of parameter 
+    """
+    # An array to store cost J and w's at each iteration primarily for graphing later
+    J_history = []
+    w = copy.deepcopy(w_in)  #avoid modifying global w within function
+    b = b_in
+    
+    for i in range(num_iters):
+        # Calculate the gradient and update the parameters
+        dj_db, dj_dw = compute_gradient_logistic_reg(X, y, w, b,lambda_)   
+
+        # Update Parameters using w, b, alpha and gradient
+        w = w - alpha * dj_dw               
+        b = b - alpha * dj_db  
+    return w,b
+
+
+
+
+
+
+
+
+
+
+w_tmp  = np.zeros_like(X_train[0])
+b_tmp  = 0.
+alph = 0.1
+iters = 10000
+lambda_ = 1
+
+w_out, b_out = gradient_descent(X_train, y_train, w_tmp, b_tmp, alph, iters,lambda_) 
+
+
+x1= []
+x2 = []
+colors = ['red','green']
+for i in range(len(X_train)):
+  x1.append(X_train[i][0])
+  x2.append(X_train[i][1])
+plt.scatter(x1,x2,c= y_train,cmap=matplotlib.colors.ListedColormap(colors),marker ='x')
+x0 = -b_out/w_out[0]
+x1 = -b_out/w_out[1]
+plt.plot([0,x0],[x1,0], lw=1)
+plt.title('Logistic Regression')
+plt.xlabel('x', color='#1C2833')
+plt.ylabel('y', color='#1C2833')
+plt.legend(loc='upper left')
+plt.grid()
+plt.show()

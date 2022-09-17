@@ -1,7 +1,7 @@
 import numpy as np
 import copy
 import matplotlib.pyplot as plt
-
+import matplotlib
 
 X_train = np.array([[0.5, 1.5], [1,1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])  #(m,n)
 y_train = np.array([0, 0, 0, 1, 1, 1])                                           #(m,)
@@ -102,16 +102,16 @@ w_out, b_out = gradient_descent(X_train, y_train, w_tmp, b_tmp, alph, iters)
 
 
 
-import matplotlib.pyplot as plt
-#x = np.linspace(-5,10,1000)
-#y = w_final*x+b_final
-#plt.plot(x, y, '-r', label='Linear Regression')
+
+
 x1= []
 x2 = []
+colors = ['red','green']
 for i in range(len(X_train)):
   x1.append(X_train[i][0])
   x2.append(X_train[i][1])
-plt.scatter(x1,x2,marker ='x')
+plt.scatter(x1,x2,c= y_train,cmap=matplotlib.colors.ListedColormap(colors),marker ='x')
+
 x0 = -b_out/w_out[0]
 x1 = -b_out/w_out[1]
 plt.plot([0,x0],[x1,0], lw=1)
